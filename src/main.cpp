@@ -68,6 +68,10 @@ int main()
     {
       break;
     }
+    else if (input.substr(0, 3) == "pwd")
+    {
+      std::cout << std::filesystem::current_path() << std::endl;
+    }
     else if (input.substr(0, 4) == "echo")
     {
       std::cout << input.substr(5) << std::endl;
@@ -106,7 +110,9 @@ int main()
       if (execs.find(cmd) != execs.end())
       {
         system(input.c_str());
-      } else {
+      }
+      else
+      {
         std::cout << input << ": command not found" << std::endl;
       }
     }
