@@ -34,7 +34,7 @@ int main()
       }
       else
       {
-        std::cout << arg << ": not found";
+        std::cout << arg << ": not found" << std::endl;
       }
     }
     else
