@@ -79,7 +79,24 @@ int main()
       if (arg.at(0) == '\'')
         std::cout << arg.substr(1, arg.size() - 2) << std::endl;
       else
-        std::cout << input.substr(5) << std::endl;
+      {
+        std::string r = "";
+        for (char c : arg)
+        {
+          if (c == ' ')
+          {
+            if (r.at(r.size() - 1) != ' ')
+              r += " ";
+            continue;
+          }
+          else
+          {
+            r += c;
+          }
+        }
+        std::cout << r << " " << std::endl;
+      }
+      // std::cout << input.substr(5) << std::endl;
     }
     else if (input.substr(0, 4) == "type")
     {
