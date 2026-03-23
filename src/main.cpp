@@ -91,6 +91,22 @@ int main()
     }
     else
     {
+      std::string cmd;
+      for (char c : input)
+      {
+        if (c == ' ')
+        {
+          break;
+        }
+        else
+        {
+          cmd += c;
+        }
+      }
+      if (execs.find(cmd) != execs.end())
+      {
+        system(input.c_str());
+      }
       std::cout << input << ": command not found" << std::endl;
     }
   }
