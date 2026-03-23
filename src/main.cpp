@@ -12,7 +12,7 @@ int main()
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  std::set<std::string> builtin_commands = {"echo", "exit", "type", "pwd"};
+  std::set<std::string> builtin_commands = {"echo", "exit", "type", "pwd", "cd"};
   std::vector<std::string> paths;
   const char *env_p = std::getenv("PATH");
 
@@ -91,6 +91,26 @@ int main()
         }
         else
           std::cout << arg << ": not found" << std::endl;
+      }
+    }
+    else if (input.substr(0, 2) == "cd")
+    {
+      std::string dir = input.substr(3);
+      std::filesystem::directory_entry entry{dir};
+      try
+      {
+        if (entry.exists())
+        {
+          std::filesystem::current_path(entry);
+        }
+        else
+        {
+          std::cout << "cd: " << dir << ": No such file or directory" << std::endl;
+        }
+      }
+      catch (std::filesystem::__cxx11::filesystem_error)
+      {
+        std::cout << "cd: " << dir << ": No such file or directory" << std::endl;
       }
     }
     else
