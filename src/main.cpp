@@ -12,7 +12,7 @@ int main()
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  std::set<std::string> builtin_commands = {"echo", "exit", "type"};
+  std::set<std::string> builtin_commands = {"echo", "exit", "type", "pwd"};
   std::vector<std::string> paths;
   const char *env_p = std::getenv("PATH");
 
