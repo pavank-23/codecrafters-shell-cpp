@@ -106,8 +106,9 @@ int main()
       if (execs.find(cmd) != execs.end())
       {
         system(input.c_str());
+      } else {
+        std::cout << input << ": command not found" << std::endl;
       }
-      std::cout << input << ": command not found" << std::endl;
     }
   }
 }
