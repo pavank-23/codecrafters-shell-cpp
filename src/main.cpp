@@ -15,6 +15,7 @@ int main()
   std::set<std::string> builtin_commands = {"echo", "exit", "type", "pwd", "cd"};
   std::vector<std::string> paths;
   const char *env_p = std::getenv("PATH");
+  const char *env_home = std::getenv("HOME");
 
   std::string curr = "";
 
@@ -96,7 +97,15 @@ int main()
     else if (input.substr(0, 2) == "cd")
     {
       std::string dir = input.substr(3);
-      std::filesystem::directory_entry entry{dir};
+      std::filesystem::directory_entry entry;
+      if (dir == "~")
+      {
+        entry = std::filesystem::directory_entry(env_home);
+      }
+      else
+      {
+        entry = std::filesystem::directory_entry(dir);
+      }
       try
       {
         if (entry.exists())
