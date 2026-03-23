@@ -38,20 +38,21 @@ int main()
   {
     for (const auto &entry : std::filesystem::directory_iterator(p))
     {
-      if (entry.is_directory() == true)
+      try
       {
-        try
-        {
-          for (const auto &subentry : std::filesystem::directory_iterator(entry.path()))
-          {
-            execs[subentry.path().filename()] = subentry.path();
-          }
-        }
-        catch (std::filesystem::__cxx11::filesystem_error)
-        {
-          // std::cerr << "No Permissions to access subentries of: " << entry.path() << std::endl;
-          continue;
-        }
+        auto perms = std::filesystem::status(entry).permissions();
+
+        bool executable =
+            (perms & std::filesystem::perms::owner_exec) != std::filesystem::perms::none ||
+            (perms & std::filesystem::perms::group_exec) != std::filesystem::perms::none ||
+            (perms & std::filesystem::perms::others_exec) != std::filesystem::perms::none;
+        if (executable)
+          execs[entry.path().filename()] = entry.path();
+      }
+      catch (std::filesystem::__cxx11::filesystem_error)
+      {
+        // std::cerr << "No Permissions to access subentries of: " << entry.path() << std::endl;
+        continue;
       }
     }
   }
