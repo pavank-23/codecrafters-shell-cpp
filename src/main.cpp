@@ -76,11 +76,19 @@ int main()
     else if (input.substr(0, 4) == "echo")
     {
       std::string arg = input.substr(5);
+      std::string r = "";
       if (arg.at(0) == '\'')
-        std::cout << arg.substr(1, arg.size() - 2) << std::endl;
+      {
+        for (char c : arg)
+        {
+          if (c == '\'')
+            continue;
+          else
+            r += c;
+        }
+      }
       else
       {
-        std::string r = "";
         for (char c : arg)
         {
           if (c == ' ')
@@ -94,9 +102,8 @@ int main()
             r += c;
           }
         }
-        std::cout << r << " " << std::endl;
       }
-      // std::cout << input.substr(5) << std::endl;
+      std::cout << r << " " << std::endl;
     }
     else if (input.substr(0, 4) == "type")
     {
