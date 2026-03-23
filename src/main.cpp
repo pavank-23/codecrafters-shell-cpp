@@ -75,7 +75,11 @@ int main()
     }
     else if (input.substr(0, 4) == "echo")
     {
-      std::cout << input.substr(5) << std::endl;
+      std::string arg = input.substr(5);
+      if (arg.at(0) == '\'')
+        std::cout << arg.at(1) << arg.substr(1, arg.size() - 2) << std::endl;
+      else
+        std::cout << input.substr(5) << std::endl;
     }
     else if (input.substr(0, 4) == "type")
     {
