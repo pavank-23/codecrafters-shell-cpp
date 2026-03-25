@@ -89,25 +89,18 @@ int main()
       }
       else if (arg.at(0) == '\"')
       {
-        bool flag = false;
-        for (size_t i = 0; i < arg.size(); i++)
+        bool double_quote_end = false;
+        for (size_t i = 1; i < arg.size(); i++)
         {
-          if (arg.at(i) == '\"')
+          if (arg.at(i) == ' ')
           {
-            flag = !flag;
-            if (i > 0 && arg.at(i - 1) == ' ')
-            {
-              if (!flag)
-                r += " ";
-            }
-            else if (i > 0 && arg.at(i - 1) == '\"')
-            {
-              continue;
-            }
-            else
-            {
-              continue;
-            }
+            if (double_quote_end && i > 0 && arg.at(i - 1) != ' ' || !double_quote_end)
+              r += " ";
+          }
+          else if (arg.at(i) == '\"')
+          {
+            double_quote_end = !double_quote_end;
+            continue;
           }
           else
             r += arg.at(i);
