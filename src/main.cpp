@@ -245,10 +245,8 @@ int main()
           }
         }
       }
-      std::cout << "Command: " << cmd << std::endl;
       if (execs.find(cmd) != execs.end())
       {
-        std::cout << "Execs: " << std::endl;
         system(input.c_str());
       }
       else
