@@ -92,10 +92,13 @@ int main()
         bool in_double_quote = true;
         for (size_t i = 1; i < arg.size(); i++)
         {
-          if (in_double_quote && arg.at(i) == '\\' && (i < arg.size() - 1))
+          if (arg.at(i) == '\\')
           {
-            r += arg.at(i + 1);
-            i++;
+            if ((i < arg.size() - 1))
+            {
+              r += arg.at(i + 1);
+              i++;
+            }
             continue;
           }
           if (arg.at(i) == ' ')
