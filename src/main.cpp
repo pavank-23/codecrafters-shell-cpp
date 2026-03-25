@@ -6,6 +6,51 @@
 #include <unordered_map>
 #include <filesystem>
 
+std::string parseDoubleQuotedString(std::string input)
+{
+  std::string r = "";
+  bool in_double_quote = true;
+  for (size_t i = 1; i < input.size(); i++)
+  {
+    if (input.at(i) == '\\')
+    {
+      if ((i < input.size() - 1))
+      {
+        r += input.at(i + 1);
+        i++;
+      }
+      continue;
+    }
+    if (input.at(i) == ' ')
+    {
+      if (!in_double_quote && i > 0 && input.at(i - 1) != ' ' || in_double_quote)
+        r += " ";
+    }
+    else if (input.at(i) == '\"')
+    {
+      in_double_quote = !in_double_quote;
+      continue;
+    }
+    else
+      r += input.at(i);
+  }
+
+  return r;
+}
+
+std::string parseSingleQuotedString(std::string input)
+{
+  std::string r = "";
+  for (char c : input)
+  {
+    if (c == '\'')
+      continue;
+    else
+      r += c;
+  }
+  return r;
+}
+
 int main()
 {
   // Flush after every std::cout / std:cerr
@@ -79,41 +124,13 @@ int main()
       std::string r = "";
       if (arg.at(0) == '\'')
       {
-        for (char c : arg)
-        {
-          if (c == '\'')
-            continue;
-          else
-            r += c;
-        }
+        std::cout << parseSingleQuotedString(arg) << std::endl;
+        continue;
       }
       else if (arg.at(0) == '\"')
       {
-        bool in_double_quote = true;
-        for (size_t i = 1; i < arg.size(); i++)
-        {
-          if (arg.at(i) == '\\')
-          {
-            if ((i < arg.size() - 1))
-            {
-              r += arg.at(i + 1);
-              i++;
-            }
-            continue;
-          }
-          if (arg.at(i) == ' ')
-          {
-            if (!in_double_quote && i > 0 && arg.at(i - 1) != ' ' || in_double_quote)
-              r += " ";
-          }
-          else if (arg.at(i) == '\"')
-          {
-            in_double_quote = !in_double_quote;
-            continue;
-          }
-          else
-            r += arg.at(i);
-        }
+        std::cout << parseDoubleQuotedString(arg) << std::endl;
+        continue;
       }
       else
       {
@@ -185,23 +202,47 @@ int main()
     {
       std::string cmd;
 
-      bool in_quotes = false;
-      for (char c : input)
+      bool single_quote = input.at(0) == '\'';
+      bool double_quote = input.at(0) == '\"';
+
+      if (single_quote)
       {
-        if ((input.at(0) == c && c == '\"') || (input.at(0) == c && c == '\''))
+        int end = -1;
+        for (size_t i = 0; i < input.size(); i++)
         {
-          if (in_quotes)
+          if (input.at(i) == '\'')
+          {
+            end = i;
             break;
-          in_quotes = true;
-          continue;
+          }
         }
-        if (c == ' ' && !in_quotes)
+        cmd = parseSingleQuotedString(input.substr(0, end - 1));
+      }
+      else if (double_quote)
+      {
+        int end = -1;
+        for (size_t i = 0; i < input.size(); i++)
         {
-          break;
+          if (input.at(i) == '\"')
+          {
+            end = i;
+            break;
+          }
         }
-        else
+        cmd = parseDoubleQuotedString(input.substr(0, end - 1));
+      }
+      else
+      {
+        for (char c : input)
         {
-          cmd += c;
+          if (c == ' ')
+          {
+            break;
+          }
+          else
+          {
+            cmd += c;
+          }
         }
       }
       if (execs.find(cmd) != execs.end())
