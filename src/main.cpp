@@ -188,10 +188,11 @@ int main()
       bool in_quotes = false;
       for (char c : input)
       {
-        if (input.at(0) == c == '\"' || input.at(0) == c == '\'')
+        if ((input.at(0) == c && c == '\"') || (input.at(0) == c && c == '\''))
         {
           if (in_quotes)
             break;
+          in_quotes = true;
           continue;
         }
         if (c == ' ' && !in_quotes)
