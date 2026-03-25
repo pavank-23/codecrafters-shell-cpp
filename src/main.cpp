@@ -190,7 +190,8 @@ int main()
       {
         if (input.at(0) == c == '\"' || input.at(0) == c == '\'')
         {
-          in_quotes = !in_quotes;
+          if (in_quotes)
+            break;
           continue;
         }
         if (c == ' ' && !in_quotes)
