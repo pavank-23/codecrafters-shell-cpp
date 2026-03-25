@@ -186,6 +186,8 @@ int main()
       std::string cmd;
       for (char c : input)
       {
+        if (c == '\"' || c == '\'')
+          continue;
         if (c == ' ')
         {
           break;
