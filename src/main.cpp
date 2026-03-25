@@ -184,11 +184,15 @@ int main()
     else
     {
       std::string cmd;
+      bool in_quotes = false;
       for (char c : input)
       {
         if (c == '\"' || c == '\'')
+        {
+          in_quotes = !in_quotes;
           continue;
-        if (c == ' ' && (input.at(0) != '\'' || input.at(0) != '\"'))
+        }
+        if (c == ' ' && !in_quotes)
         {
           break;
         }
