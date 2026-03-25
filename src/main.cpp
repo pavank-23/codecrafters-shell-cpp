@@ -87,6 +87,32 @@ int main()
             r += c;
         }
       }
+      else if (arg.at(0) == '\"')
+      {
+        bool flag = false;
+        for (size_t i = 0; i < arg.size(); i++)
+        {
+          if (arg.at(i) == '\"')
+          {
+            flag = !flag;
+            if (i > 0 && arg.at(i - 1) == ' ')
+            {
+              if (!flag)
+                r += " ";
+            }
+            else if (i > 0 && arg.at(i - 1) == '\"')
+            {
+              continue;
+            }
+            else
+            {
+              continue;
+            }
+          }
+          else
+            r += arg.at(i);
+        }
+      }
       else
       {
         for (char c : arg)
