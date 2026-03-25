@@ -89,17 +89,23 @@ int main()
       }
       else if (arg.at(0) == '\"')
       {
-        bool double_quote_end = false;
+        bool in_double_quote = true;
         for (size_t i = 1; i < arg.size(); i++)
         {
+          if (in_double_quote && arg.at(i) == '\\' && (i < arg.size() - 1))
+          {
+            r += arg.at(i + 1);
+            i++;
+            continue;
+          }
           if (arg.at(i) == ' ')
           {
-            if (double_quote_end && i > 0 && arg.at(i - 1) != ' ' || !double_quote_end)
+            if (!in_double_quote && i > 0 && arg.at(i - 1) != ' ' || in_double_quote)
               r += " ";
           }
           else if (arg.at(i) == '\"')
           {
-            double_quote_end = !double_quote_end;
+            in_double_quote = !in_double_quote;
             continue;
           }
           else
