@@ -108,14 +108,17 @@ int main()
       }
       else
       {
-        for (char c : arg)
+        for (size_t i = 0; i < arg.size(); i++)
         {
+          char c = arg.at(i);
           if (c == ' ')
           {
-            if (r.at(r.size() - 1) != ' ')
+            if (r.at(r.size() - 1) != ' ' || (i > 0 && arg.at(i - 1) == '\\'))
               r += " ";
             continue;
           }
+          else if (c == '\\')
+            continue;
           else
           {
             r += c;
