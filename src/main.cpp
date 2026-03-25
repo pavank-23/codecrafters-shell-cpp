@@ -188,7 +188,7 @@ int main()
       {
         if (c == '\"' || c == '\'')
           continue;
-        if (c == ' ')
+        if (c == ' ' && (input.at(0) != '\'' || input.at(0) != '\"'))
         {
           break;
         }
