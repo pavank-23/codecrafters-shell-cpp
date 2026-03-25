@@ -208,7 +208,7 @@ int main()
       if (single_quote)
       {
         int end = -1;
-        for (size_t i = 0; i < input.size(); i++)
+        for (size_t i = 1; i < input.size(); i++)
         {
           if (input.at(i) == '\'')
           {
@@ -216,12 +216,12 @@ int main()
             break;
           }
         }
-        cmd = parseSingleQuotedString(input.substr(0, end - 1));
+        cmd = parseSingleQuotedString(input.substr(0, end));
       }
       else if (double_quote)
       {
         int end = -1;
-        for (size_t i = 0; i < input.size(); i++)
+        for (size_t i = 1; i < input.size(); i++)
         {
           if (input.at(i) == '\"')
           {
@@ -229,7 +229,7 @@ int main()
             break;
           }
         }
-        cmd = parseDoubleQuotedString(input.substr(0, end - 1));
+        cmd = parseDoubleQuotedString(input.substr(0, end));
       }
       else
       {
@@ -245,8 +245,10 @@ int main()
           }
         }
       }
+      std::cout << "Command: " << cmd << std::endl;
       if (execs.find(cmd) != execs.end())
       {
+        std::cout << "Execs: " << std::endl;
         system(input.c_str());
       }
       else
